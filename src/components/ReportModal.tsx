@@ -45,7 +45,7 @@ export default function ReportModal({ type, data }: ReportModalProps) {
   const errorHTML = sessionErrors
     .map((error: SessionError) => (
       <li key={`${error.prompt}-${error.userAnswer}`}>
-        Question: "{error.prompt}"<br />
+        Question: &quot;{error.prompt}&quot;<br />
         Your answer: <strong>{error.userAnswer}</strong><br />
         Correct answer: <code>{error.correctAnswer}</code>
       </li>
