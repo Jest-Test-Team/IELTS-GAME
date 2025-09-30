@@ -33,13 +33,13 @@ export default function Home() {
       <div>
         <p>
           Constructed: This word means to build or make something, typically a
-          physical object or an abstract idea. It's about creation. Synonyms:
+          physical object or an abstract idea. It&apos;s about creation. Synonyms:
           built, created, erected, made.
         </p>
         <br />
         <p>
           Accounted for: This is a phrasal verb that means to form a part of a
-          total or to explain the reason for something. It's about explanation,
+          total or to explain the reason for something. It&apos;s about explanation,
           data, or proportions. Synonyms: comprised, made up, represented,
           explained.
         </p>
