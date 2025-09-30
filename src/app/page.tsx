@@ -46,6 +46,8 @@ export default function Home() {
       </div>
 
       <ReportModal type="spelling" data={spellingData} />
+      <ReportModal type="grammar" data={grammarData} />
+      <ReportModal type="overall" data={overallData} />
     </main>
   );
 }

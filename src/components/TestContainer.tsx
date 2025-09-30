@@ -33,7 +33,7 @@ export default function TestContainer({ type, data, title, description }: TestCo
 
   useEffect(() => {
     if (sessionAttempts >= 40 && sessionAttempts % 40 === 0) {
-      showReport();
+      setTimeout(() => showReport(), 100); // 小延遲確保 DOM 已更新
     }
   }, [sessionAttempts, showReport]);
 

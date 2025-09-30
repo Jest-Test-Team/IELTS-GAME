@@ -46,11 +46,11 @@ export function useTestController(type: TestType, data: Question[]) {
   }, [currentQuestion, setStats]);
 
   const showReport = useCallback(() => {
-    const modal = document.getElementById('report-modal');
+    const modal = document.getElementById(`${type}-report-modal`) || document.getElementById('report-modal');
     if (modal) {
       modal.classList.add('show');
     }
-  }, []);
+  }, [type]);
 
   const resetSession = useCallback(() => {
     setSessionAttempts(0);
@@ -59,12 +59,12 @@ export function useTestController(type: TestType, data: Question[]) {
   }, []);
 
   const closeReport = useCallback(() => {
-    const modal = document.getElementById('report-modal');
+    const modal = document.getElementById(`${type}-report-modal`) || document.getElementById('report-modal');
     if (modal) {
       modal.classList.remove('show');
     }
     resetSession();
-  }, [resetSession]);
+  }, [resetSession, type]);
 
   return {
     currentQuestion,

@@ -19,7 +19,7 @@ export default function ReportModal({ type, data }: ReportModalProps) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const modal = document.getElementById('report-modal');
+      const modal = document.getElementById(`${type}-report-modal`) || document.getElementById('report-modal');
       if (event.target === modal) {
         closeReport();
       }
@@ -38,7 +38,7 @@ export default function ReportModal({ type, data }: ReportModalProps) {
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [closeReport]);
+  }, [closeReport, type]);
 
   const rate = sessionAttempts > 0 ? Math.round((sessionCorrect / sessionAttempts) * 100) : 0;
 
@@ -52,7 +52,7 @@ export default function ReportModal({ type, data }: ReportModalProps) {
     ));
 
   return (
-    <div id="report-modal" className="modal">
+    <div id={`${type}-report-modal`} className="modal">
       <div className="modal-content">
         <div className="modal-header">
           <h3 id="report-title">
