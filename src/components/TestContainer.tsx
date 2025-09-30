@@ -22,9 +22,11 @@ export default function TestContainer({ type, data, title, description }: TestCo
     sessionCorrect,
     sessionErrors,
     stats,
+    questionWrongCount,
     loadNewQuestion,
     checkAnswer,
     showReport,
+    shouldShowHint,
   } = useTestController(type, data);
 
   useEffect(() => {
@@ -49,8 +51,16 @@ export default function TestContainer({ type, data, title, description }: TestCo
         inputRef.current?.focus();
       }, 1200);
     } else {
+      const wrongCount = questionWrongCount.get(currentQuestion.answer) || 0;
+      let message = `❌ Incorrect. The correct answer is: ${currentQuestion.answer}`;
+      
+      // 如果答錯3次，顯示中文意思
+      if (wrongCount >= 3 && currentQuestion.chineseMeaning) {
+        message += `\n\n📚 繁體中文意思：${currentQuestion.chineseMeaning}`;
+      }
+      
       setFeedback({
-        message: `❌ Incorrect. The correct answer is: ${currentQuestion.answer}`,
+        message: message,
         isCorrect: false,
       });
     }
@@ -114,7 +124,9 @@ export default function TestContainer({ type, data, title, description }: TestCo
 
       {feedback && (
         <div className={`feedback ${feedback.isCorrect ? 'correct' : 'incorrect'}`}>
-          {feedback.message}
+          <pre style={{ whiteSpace: 'pre-wrap', textAlign: 'left' }}>
+            {feedback.message}
+          </pre>
         </div>
       )}
 
