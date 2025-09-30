@@ -9,6 +9,7 @@ export function useTestController(type: TestType, data: Question[]) {
   const [sessionAttempts, setSessionAttempts] = useState(0);
   const [sessionCorrect, setSessionCorrect] = useState(0);
   const [sessionErrors, setSessionErrors] = useState<SessionError[]>([]);
+  const [questionWrongCount, setQuestionWrongCount] = useState<Map<string, number>>(new Map());
   
   const [stats, setStats] = useLocalStorage<TestStats>(`${type}Stats`, {
     attempts: 0,
@@ -34,16 +35,33 @@ export function useTestController(type: TestType, data: Question[]) {
     
     if (isCorrect) {
       setSessionCorrect(prev => prev + 1);
+      // 答對時重置該題的錯誤計數
+      setQuestionWrongCount(prev => {
+        const newMap = new Map(prev);
+        newMap.delete(currentQuestion.answer);
+        return newMap;
+      });
     } else {
+      // 更新該題的錯誤計數
+      setQuestionWrongCount(prev => {
+        const newMap = new Map(prev);
+        const currentCount = newMap.get(currentQuestion.answer) || 0;
+        newMap.set(currentQuestion.answer, currentCount + 1);
+        return newMap;
+      });
+      
+      const wrongCount = (questionWrongCount.get(currentQuestion.answer) || 0) + 1;
+      
       setSessionErrors(prev => [...prev, {
         prompt: currentQuestion.prompt,
         userAnswer: userAnswer,
         correctAnswer: currentQuestion.answer,
+        wrongCount: wrongCount,
       }]);
     }
 
     return isCorrect;
-  }, [currentQuestion, setStats]);
+  }, [currentQuestion, setStats, questionWrongCount]);
 
   const showReport = useCallback(() => {
     const modal = document.getElementById(`${type}-report-modal`) || document.getElementById('report-modal');
@@ -56,7 +74,13 @@ export function useTestController(type: TestType, data: Question[]) {
     setSessionAttempts(0);
     setSessionCorrect(0);
     setSessionErrors([]);
+    setQuestionWrongCount(new Map());
   }, []);
+
+  const shouldShowHint = useCallback(() => {
+    const wrongCount = questionWrongCount.get(currentQuestion.answer) || 0;
+    return wrongCount >= 3;
+  }, [questionWrongCount, currentQuestion.answer]);
 
   const closeReport = useCallback(() => {
     const modal = document.getElementById(`${type}-report-modal`) || document.getElementById('report-modal');
@@ -72,10 +96,12 @@ export function useTestController(type: TestType, data: Question[]) {
     sessionCorrect,
     sessionErrors,
     stats,
+    questionWrongCount,
     loadNewQuestion,
     checkAnswer,
     showReport,
     resetSession,
     closeReport,
+    shouldShowHint,
   };
 }

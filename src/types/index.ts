@@ -3,6 +3,7 @@ export interface Question {
   answer: string;
   hint?: string;
   options?: string[];
+  chineseMeaning?: string;
 }
 
 export interface TestStats {
@@ -14,6 +15,7 @@ export interface SessionError {
   prompt: string;
   userAnswer: string;
   correctAnswer: string;
+  wrongCount: number;
 }
 
 export interface TestControllerState {
