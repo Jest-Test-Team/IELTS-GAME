@@ -2,7 +2,7 @@
 
 import TestContainer from '@/components/TestContainer';
 import ReportModal from '@/components/ReportModal';
-import { spellingData, grammarData, overallData } from '@/data/questions';
+import { spellingData, grammarData, overallData, synonymData } from '@/data/questions';
 
 export default function Home() {
   return (
@@ -30,6 +30,13 @@ export default function Home() {
         description="A question about a key writing rule will be shown. Select an option and check your answer."
       />
 
+      <TestContainer
+        type="synonym"
+        data={synonymData}
+        title="4. Synonym Test 📚"
+        description="Find the appropriate synonym for the given word based on context. Type the correct synonym."
+      />
+
       <div>
         <p>
           Constructed: This word means to build or make something, typically a
@@ -48,6 +55,7 @@ export default function Home() {
       <ReportModal type="spelling" data={spellingData} />
       <ReportModal type="grammar" data={grammarData} />
       <ReportModal type="overall" data={overallData} />
+      <ReportModal type="synonym" data={synonymData} />
     </main>
   );
 }

@@ -85,7 +85,7 @@ export default function TestContainer({ type, data, title, description }: TestCo
       
       <div className="prompt">
         {currentQuestion.prompt}
-        {type === 'spelling' && currentQuestion.hint && ` (${currentQuestion.hint})`}
+        {(type === 'spelling' || type === 'synonym') && currentQuestion.hint && ` (${currentQuestion.hint})`}
       </div>
 
       {type === 'overall' && currentQuestion.options && (
@@ -116,6 +116,8 @@ export default function TestContainer({ type, data, title, description }: TestCo
               ? "Click an option above to fill..." 
               : type === 'grammar'
               ? "Type only the missing part..."
+              : type === 'synonym'
+              ? "Type the synonym here..."
               : "Type the correct word here..."
           }
         />

@@ -26,4 +26,5 @@ export interface TestControllerState {
   stats: TestStats;
 }
 
-export type TestType = 'spelling' | 'grammar' | 'overall';
+// Test types for different practice modes
+export type TestType = 'spelling' | 'grammar' | 'overall' | 'synonym';
